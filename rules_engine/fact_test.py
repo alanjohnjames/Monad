@@ -5,7 +5,7 @@ https://dev.to/fractalis/how-to-write-a-basic-rule-engine-in-python-3eik
 
 """
 
-from rules import Fact
+from rules_engine.rules import Fact
 
 
 def test_fact():

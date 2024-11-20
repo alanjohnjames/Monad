@@ -5,7 +5,7 @@ https://dev.to/fractalis/how-to-write-a-basic-rule-engine-in-python-3eik
 
 """
 
-from fact import Fact
+from rules_engine.fact import Fact
 
 from typing import Callable, Any, Dict, List
 

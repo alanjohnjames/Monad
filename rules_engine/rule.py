@@ -5,9 +5,9 @@ https://dev.to/fractalis/how-to-write-a-basic-rule-engine-in-python-3eik
 
 """
 
-from condition import Condition
-from action import Action
-from fact import Fact
+from rules_engine.condition import Condition
+from rules_engine.action import Action
+from rules_engine.fact import Fact
 
 from typing import Any, List
 from functools import reduce

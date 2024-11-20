@@ -2,10 +2,10 @@
 
 # Main
 
-from fact import Fact
-from condition import Condition
-from action import Action
-from rule import Rule
+from rules_engine.fact import Fact
+from rules_engine.condition import Condition
+from rules_engine.action import Action
+from rules_engine.rule import Rule
 
 age_cond = Condition(name="Age>=21",
                      evaluation_function=lambda fact: fact.age >= 21)
