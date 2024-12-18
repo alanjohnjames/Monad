@@ -22,14 +22,15 @@ class Entity:
         return self.components.get(component_type)
 
 class RuleSystem:
-    def __init__(self, condition):
+    def __init__(self, condition, action):
         self.condition = condition
+        self.action = action
 
     def process(self, entities):
         for entity in entities:
             data = entity.get_component(DataComponent)
             if data and self.condition(data.value):
-                print(f"Entity {entity.id}: Rule is satisfied.")
+                self.action(entity)
                 entities.remove(entity)
 
 class World:
@@ -59,8 +60,12 @@ if __name__ == "__main__":
     rule2_condition = lambda value: value % 2 == 0
     rule3_condition = lambda value: value % 5 == 0
 
-    world.add_system(RuleSystem(rule1_condition))
-    world.add_system(RuleSystem(rule2_condition))
-    world.add_system(RuleSystem(rule3_condition))
+    rule1_action = lambda entity: print(f"Entity {entity.id}: Rule 1 is satisfied.")
+    rule2_action = lambda entity: print(f"Entity {entity.id}: Rule 2 is satisfied.")
+    rule3_action = lambda entity: print(f"Entity {entity.id}: Rule 3 is satisfied.")
+
+    world.add_system(RuleSystem(rule1_condition, rule1_action))
+    world.add_system(RuleSystem(rule2_condition, rule2_action))
+    world.add_system(RuleSystem(rule3_condition, rule3_action))
 
     world.process()
