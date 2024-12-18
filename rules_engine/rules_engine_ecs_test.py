@@ -1,5 +1,5 @@
 import pytest
-from rules_engine_ecs import DataComponent, Entity, RuleSystem, World
+from rules_engine.rules_engine_ecs import DataComponent, Entity, RuleSystem, World
 
 
 @pytest.fixture
