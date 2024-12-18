@@ -10,8 +10,8 @@ from rules_engine.rules import Fact
 
 def test_fact():
     person_fact = Fact(name="John Brown",
-                    age="35",
-                    occuptation="Software Developer")
+                       age="35",
+                       occuptation="Software Developer")
 
     assert person_fact.age == '35'
 

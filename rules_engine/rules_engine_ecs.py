@@ -21,28 +21,15 @@ class Entity:
     def get_component(self, component_type):
         return self.components.get(component_type)
 
-class Rule1System:
-    def process(self, entities):
-        for entity in entities:
-            data = entity.get_component(DataComponent)
-            if data and data.value > 10:
-                print(f"Entity {entity.id}: Rule1 is satisfied.")
-                entities.remove(entity)
+class RuleSystem:
+    def __init__(self, condition):
+        self.condition = condition
 
-class Rule2System:
     def process(self, entities):
         for entity in entities:
             data = entity.get_component(DataComponent)
-            if data and data.value % 2 == 0:
-                print(f"Entity {entity.id}: Rule2 is satisfied.")
-                entities.remove(entity)
-
-class Rule3System:
-    def process(self, entities):
-        for entity in entities:
-            data = entity.get_component(DataComponent)
-            if data and data.value % 5 == 0:
-                print(f"Entity {entity.id}: Rule3 is satisfied.")
+            if data and self.condition(data.value):
+                print(f"Entity {entity.id}: Rule is satisfied.")
                 entities.remove(entity)
 
 class World:
@@ -68,8 +55,12 @@ if __name__ == "__main__":
     entity.add_component(DataComponent(12))
     world.add_entity(entity)
 
-    world.add_system(Rule1System())
-    world.add_system(Rule2System())
-    world.add_system(Rule3System())
+    rule1_condition = lambda value: value > 10
+    rule2_condition = lambda value: value % 2 == 0
+    rule3_condition = lambda value: value % 5 == 0
+
+    world.add_system(RuleSystem(rule1_condition))
+    world.add_system(RuleSystem(rule2_condition))
+    world.add_system(RuleSystem(rule3_condition))
 
     world.process()

@@ -13,11 +13,7 @@ class Fact:
 
 def fact_test():
     person_fact = Fact(name="John Brown",
-                    age="35",
-                    occuptation="Software Developer")
+                       age="35",
+                       occuptation="Software Developer")
 
     person_fact.age # Returns 35
-
-
-
-
