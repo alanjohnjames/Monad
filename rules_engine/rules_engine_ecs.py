@@ -2,46 +2,49 @@
 Implementing a Waterfall of Business Rules in Python using the ECS pattern.
 
 """
+from typing import NamedTuple, Callable, Dict, List
 
-class DataComponent:
-    def __init__(self, value):
-        self.value = value
+class DataComponent(NamedTuple):
+    value: int
 
-class Entity:
+class Entity(NamedTuple):
+    id: int
+    components: Dict[type, NamedTuple]
+
     _id_counter = 0
 
-    def __init__(self):
-        self.id = Entity._id_counter
-        Entity._id_counter += 1
-        self.components = {}
+    @classmethod
+    def create(cls):
+        entity = cls(cls._id_counter, {})
+        cls._id_counter += 1
+        return entity
 
-    def add_component(self, component):
+    def add_component(self, component: NamedTuple):
         self.components[type(component)] = component
 
-    def get_component(self, component_type):
+    def get_component(self, component_type: type) -> NamedTuple:
         return self.components.get(component_type)
 
-class RuleSystem:
-    def __init__(self, condition, action):
-        self.condition = condition
-        self.action = action
+class RuleSystem(NamedTuple):
+    condition: Callable[[int], bool]
+    action: Callable[[Entity], None]
 
-    def process(self, entities):
+    def process(self, entities: List[Entity]):
         for entity in entities:
             data = entity.get_component(DataComponent)
             if data and self.condition(data.value):
                 self.action(entity)
-                entities.remove(entity)
+                if entity in entities:
+                    entities.remove(entity)
 
-class World:
-    def __init__(self):
-        self.entities = []
-        self.systems = []
+class World(NamedTuple):
+    entities: List[Entity] = []
+    systems: List[NamedTuple] = []
 
-    def add_entity(self, entity):
+    def add_entity(self, entity: Entity):
         self.entities.append(entity)
 
-    def add_system(self, system):
+    def add_system(self, system: NamedTuple):
         self.systems.append(system)
 
     def process(self):
@@ -49,10 +52,9 @@ class World:
             system.process(self.entities)
 
 if __name__ == "__main__":
-
     world = World()
 
-    entity = Entity()
+    entity = Entity.create()
     entity.add_component(DataComponent(12))
     world.add_entity(entity)
 
